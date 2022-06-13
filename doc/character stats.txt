@@ -1,0 +1,2 @@
+xp = 500*level^2 - 500 * level
+attack = 10 * sqrt(x)

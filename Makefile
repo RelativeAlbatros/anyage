@@ -2,4 +2,4 @@ SOURCE := src/Game.cpp  \
 					src/main.cpp
 
 goblin-quest: ${SOURCE}
-	${CXX} -o $@ $? -std=c++11
+	${CXX} -o $@ $? -std=c++11 -lncurses

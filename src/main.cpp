@@ -1,11 +1,18 @@
+#include <unistd.h>
+#include <iostream>
 #include <string>
+#include <ncurses.h>
 #include "Game.hpp"
 
-const std::string game_title = "goblin quest";
-const std::string version    = "v0.1";
+int main(int argc, char *argv[], char **envp) {
+  std::string player_name;
 
-int main(int argc, char *argv[]) {
   Game game;
-  Object Text("text", "test");
+
+  print("choose a character name: ");
+  player_name = read();
+  Player player(player_name);
+
+  sleep(3);
   return 0;
 }
