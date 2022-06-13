@@ -30,7 +30,6 @@ std::string read(void) {
     // this reads from buffer after <ENTER>, not "raw" 
     // so any backspacing etc. has already been taken care of
     int ch = getch();
-
     while ( ch != '\n' )
     {
         input.push_back( ch );
@@ -38,7 +37,6 @@ std::string read(void) {
     }
 
     // restore your cbreak / echo settings here
-
     return input;
 }
 
@@ -69,12 +67,20 @@ Item::Item(const std::string& name)
 {
 }
 
-Actor::Actor(const std::string& name)
-: Object(name)
+Actor::Actor(const std::string& name, const int level, const int max_hp, const int power)
+: Object(name), _level(level), _health(max_hp), _power(power)
 {
 }
 
-int Actor::getHP() const {
+std::string Actor::getName(void) const {
+    return _name;
+}
+
+int Actor::getDamage(const int level) const {
+    return _power;
+}
+
+int Actor::getHP(void) const {
     return _health;
 }
 
@@ -83,29 +89,68 @@ void Actor::setHP(int hp) {
     _health = hp;
 }
 
-int Actor::getLevel() const {
+int Actor::getLevel(void) const {
     return _level;
 }
 
 void Actor::attack(Actor& target) {
-    target.setHP(target.getHP() - _strength);
+    target.setHP(target.getHP() - getDamage(getLevel()));
+    if (target.getHP() <= 0) {
+        target.die();
+    }
 }
 
-Enemy::Enemy(const std::string& name) 
-: Actor(name)
+void Actor::die(void) {
+    print(getName() + " has been killed.\n");
+}
+
+/* Enemy::Enemy(const std::string& name, const int level) */
+/* : Actor(name, level, calculateMaxHealth(level), calculateAttack(level)) */ 
+/* { */
+/* } */
+
+Goblin::Goblin(const std::string& name, const int level) 
+: Actor(name, level, calculateMaxHealth(level), calculateAttack(level))
 {
 }
 
-Goblin::Goblin(const std::string& name) 
-: Enemy(name)
-{
+int Goblin::calculateMaxHealth(const int level) const {
+    return 13 * level + 57;
 }
 
-Player::Player(const std::string& name) 
-: Actor(name)
+int Goblin::calculateAttack(const int level) const {
+    return 15 * level;
+}
+
+int Goblin::getDamage(const int level) const {
+    return calculateAttack(level) * 3;
+}
+
+void Goblin::attack(Actor& target) {
+    target.setHP(target.getHP() - getDamage(getLevel()));
+    if (target.getHP() <= 0) {
+        target.die();
+        print(getName() + " killed " + target.getName());
+    }
+}
+
+Player::Player(const std::string& name, const int level, const int xp)
+: Actor(name, level, calculateMaxHealth(level), calculateAttack(level)),
+_xp(xp)
 {
-    print("hello");
     print("Player " + name + " has appeared\n");
+}
+
+int Player::calculateMaxHealth(const int level) const {
+    return 7 * (level^2) + 10 * level;
+}
+
+int Player::calculateAttack(const int level) const {
+    return 11 * sqrt(level) - 5;
+}
+
+int Player::getDamage(const int level) const {
+    return calculateAttack(level) * 4;
 }
 
 int Player::getXP(void) const {
@@ -124,9 +169,19 @@ int Player::getLevel(void) const {
 
 void Player::incLevel(void) {
     _level += 1;
+    _health = calculateMaxHealth(getLevel());
 }
 
-Game::Game() {
+void Player::attack(Actor& target) {
+    target.setHP(target.getHP() - getDamage(getLevel()));
+    if (target.getHP() <= 0) {
+        target.die();
+        print(getName() + " killed " + target.getName());
+    }
+}
+
+Game::Game(const std::string& name)
+: game_title(name) {
     // ncurses window init
     initscr();
     keypad(stdscr, TRUE);

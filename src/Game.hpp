@@ -37,56 +37,57 @@ class Actor : public Object {
 protected:
     int _level, _health, _power;
 public:
-    explicit Actor(const std::string& name);
+    Actor(const std::string& name, const int level, const int max_hp, const int power);
+    std::string getName(void) const;
+    virtual int calculateMaxHealth(const int level) const = 0;
+    virtual int calculateAttack(const int level) const = 0;
+    virtual int getDamage(const int level) const = 0;
     int getHP(void) const;
     void setHP(int hp);
     int getLevel(void) const;
-    void attack(Actor& a);
+    virtual void attack(Actor& a);
     void die(void);
 };
 
-class Enemy : public Actor {
-private:
-    std::string _description;
-    std::string _name;
-    int _level, _health, _defense, _strength;
-public:
-    explicit Enemy(const std::string& name);
-};
+/* class Enemy : public Actor { */
+/* public: */
+/*     Enemy(const std::string& name, const int level); */
+/* }; */
 
-class Goblin : public Enemy {
-private:
-    std::string _description;
-    std::string _name;
-    int _level, _health, _defense, _strength;
+class Goblin : public Actor {
 public:
-    explicit Goblin(const std::string& name);
+    Goblin(const std::string& name, const int level);
+    int calculateMaxHealth(const int level) const override;
+    int calculateAttack(const int level) const override;
+    int getDamage(const int level) const override;
+    void attack(Actor& target) override;
 };
 
 class Player : public Actor {
 private:
-    std::string _description;
-    std::string _name;
-    int _level, _dexterity, _consitution, _intelligence, _wisdom, _charisma, _xp;
-    int _health, _defense, _strength;
+    int _xp;
+    int _strength, _attack;
     std::vector<Item> inventory;
 public:
-    explicit Player(const std::string& name);
+    Player(const std::string& name, const int level, const int xp);
+    int calculateMaxHealth(const int level) const override;
+    int calculateAttack(const int level) const override;
+    int getDamage(const int level) const override;
     int getXP(void) const;
     void setXP(int xp);
     int getLevel(void) const;
     void incLevel(void);
+    void attack(Actor& target) override;
 };
 
 class Game {
 public:
-    Game();
+    Game(const std::string& name);
     ~Game();
     void add_object(Object o);
     std::vector<Object> getItemList() const;
 private:
     std::string game_title;
-    std::string version;
     std::vector<Object> items_table;
 };
 

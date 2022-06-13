@@ -7,12 +7,11 @@
 int main(int argc, char *argv[], char **envp) {
   std::string player_name;
 
-  Game game;
+  Game game("goblin quest");
 
   print("choose a character name: ");
   player_name = read();
-  Player player(player_name);
+  Player player(player_name, 1, 0);
 
-  sleep(3);
   return 0;
 }
