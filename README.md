@@ -1,6 +1,6 @@
 # goblin-quest
 
-### basic gameplay
-`Player x appeared`
-`Goblin y appeared`
-`> attack Goblin`
+**work in progress.**
+
+### Troubleshooting
+*it works on my machine.*
