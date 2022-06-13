@@ -7,9 +7,7 @@
 #include <cstdio>
 
 #define MAX_OBJECT_ID 128
-
-const std::string game_title = "goblin quest";
-const std::string version    = "v0.1";
+#define ANYAGE_VERSION "v0.1"
 
 void debug(std::string message);
 void print(std::string message);
@@ -34,7 +32,7 @@ private:
     std::string _class;
     std::string _rarity;
 public:
-    Item(const std::string& name);
+    explicit Item(const std::string& name);
 };
 
 class Actor : public Object {
@@ -43,7 +41,7 @@ private:
     std::string _name;
     int _level, _health, _defense, _strength;
 public:
-    Actor(const std::string& name);
+    explicit Actor(const std::string& name);
     int getHP(void) const;
     void setHP(int hp);
     int getLevel(void) const;
@@ -57,7 +55,7 @@ private:
     std::string _name;
     int _level, _health, _defense, _strength;
 public:
-    Enemy(const std::string& name);
+    explicit Enemy(const std::string& name);
 };
 
 class Goblin : public Enemy {
@@ -66,7 +64,7 @@ private:
     std::string _name;
     int _level, _health, _defense, _strength;
 public:
-    Goblin(const std::string& name);
+    explicit Goblin(const std::string& name);
 };
 
 class Player : public Actor {
@@ -77,7 +75,7 @@ private:
     int _health, _defense, _strength;
     std::vector<Item> inventory;
 public:
-    Player(const std::string& name);
+    explicit Player(const std::string& name);
     int getXP(void) const;
     void setXP(int xp);
     int getLevel(void) const;
@@ -91,6 +89,8 @@ public:
     void add_object(Object o);
     std::vector<Object> getItemList() const;
 private:
+    std::string game_title;
+    std::string version;
     std::vector<Object> items_table;
 };
 
