@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cstdio>
+#include <cmath>
 #include <string>
 #include <exception>
 #include <vector>
@@ -7,8 +8,8 @@
 
 #include "Game.hpp"
 
-void debug(std::string message) {
-    std::ofstream Log((game_title+".log").c_str());
+void debug(const std::string& message) {
+    std::ofstream Log("game.log");
     Log << "[??] " + message;
     Log.close();
 }

@@ -9,7 +9,7 @@
 #define MAX_OBJECT_ID 128
 #define ANYAGE_VERSION "v0.1"
 
-void debug(std::string message);
+void debug(const std::string& message);
 void print(std::string message);
 std::string read(void);
 int xp_to_advance(int level);
