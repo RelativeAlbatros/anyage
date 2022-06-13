@@ -1,0 +1,4 @@
+- world output to window
+- room and tiles classes
+- level generation algorithm
+- level system (pretty much done)
