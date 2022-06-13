@@ -15,7 +15,7 @@ std::string read(void);
 int xp_to_advance(int level);
 
 class Object {
-private:
+protected:
     std::string _description;
     std::string _name;
 public:
@@ -26,9 +26,7 @@ public:
 };
 
 class Item : public Object {
-private:
-    std::string _description;
-    std::string _name;
+protected:
     std::string _class;
     std::string _rarity;
 public:
@@ -36,10 +34,8 @@ public:
 };
 
 class Actor : public Object {
-private:
-    std::string _description;
-    std::string _name;
-    int _level, _health, _defense, _strength;
+protected:
+    int _level, _health, _power;
 public:
     explicit Actor(const std::string& name);
     int getHP(void) const;
