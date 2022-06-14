@@ -2,5 +2,8 @@
 
 **work in progress.**
 
-### Troubleshooting
-*it works on my machine.*
+### Dependencies
+- ncurses
+
+### Install
+`sudo make clean install`

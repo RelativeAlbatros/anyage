@@ -5,15 +5,12 @@
 #include <fstream>
 #include <string>
 #include <cstdio>
+#include <ncurses.h>
 
-#define MAX_OBJECT_ID 128
-#define ANYAGE_VERSION "v0.1"
+/* macros */
+#define ANYAGE_VERSION "v0.11"
 
-void debug(const std::string& message);
-void print(std::string message);
-std::string read(void);
-int xp_to_advance(int level);
-
+/* classes */
 class Object {
 protected:
     std::string _description;
@@ -35,9 +32,9 @@ public:
 
 class Actor : public Object {
 protected:
-    int _level, _health, _power;
+    int _level, _health, _attack;
 public:
-    Actor(const std::string& name, const int level, const int max_hp, const int power);
+    Actor(const std::string& name, const int level, const int max_hp, const int attack);
     std::string getName(void) const;
     virtual int calculateMaxHealth(const int level) const = 0;
     virtual int calculateAttack(const int level) const = 0;
@@ -45,8 +42,7 @@ public:
     int getHP(void) const;
     void setHP(int hp);
     int getLevel(void) const;
-    virtual void attack(Actor& a);
-    void die(void);
+    virtual std::string attack(Actor& a);
 };
 
 /* class Enemy : public Actor { */
@@ -60,7 +56,7 @@ public:
     int calculateMaxHealth(const int level) const override;
     int calculateAttack(const int level) const override;
     int getDamage(const int level) const override;
-    void attack(Actor& target) override;
+    std::string attack(Actor& target) override;
 };
 
 class Player : public Actor {
@@ -73,23 +69,33 @@ public:
     int calculateMaxHealth(const int level) const override;
     int calculateAttack(const int level) const override;
     int getDamage(const int level) const override;
+    int xp_to_advance(const int level) const;
     int getXP(void) const;
     void setXP(int xp);
     int getLevel(void) const;
     void incLevel(void);
-    void attack(Actor& target) override;
+    std::string attack(Actor& target) override;
 };
 
 class Game {
 public:
-    Game(const std::string& name);
+    explicit Game(const std::string& name);
     ~Game();
+    void tick(void);
     void add_object(Object o);
     std::vector<Object> getItemList() const;
+
+    friend void print_to_log(Game& g, const std::string& message);
 private:
+    WINDOW *world_window;
+    WINDOW *log_window;
     std::string game_title;
     std::vector<Object> items_table;
 };
 
-#endif
+/* functions */
+void debug(const std::string& message);
+void print_to_log(Game& g, const std::string& message);
+std::string read(void);
 
+#endif

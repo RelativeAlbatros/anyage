@@ -6,17 +6,17 @@
 #include <vector>
 #include <ncurses.h>
 
-#include "Game.hpp"
+#include "game.hpp"
 
 void debug(const std::string& message) {
     std::ofstream Log("game.log");
-    Log << "[??] " + message;
+    Log << "[??] " + message + "\n";
     Log.close();
 }
 
-void print(std::string message) {
+void print_to_log(Game& g, const std::string& message) {
     for(int i=0; i<message.length(); i++) {
-        waddch(stdscr, message[i]);
+        waddch(g.log_window, message[i]);
     }
 }
 
@@ -38,10 +38,6 @@ std::string read(void) {
 
     // restore your cbreak / echo settings here
     return input;
-}
-
-int xp_to_advance(int level) {
-    return (500*(level^2) - 500 * level);
 }
 
 Object::Object(const std::string& name, const std::string& desc)
@@ -67,8 +63,8 @@ Item::Item(const std::string& name)
 {
 }
 
-Actor::Actor(const std::string& name, const int level, const int max_hp, const int power)
-: Object(name), _level(level), _health(max_hp), _power(power)
+Actor::Actor(const std::string& name, const int level, const int max_hp, const int attack)
+: Object(name), _level(level), _health(max_hp), _attack(attack)
 {
 }
 
@@ -77,7 +73,7 @@ std::string Actor::getName(void) const {
 }
 
 int Actor::getDamage(const int level) const {
-    return _power;
+    return _attack;
 }
 
 int Actor::getHP(void) const {
@@ -93,15 +89,12 @@ int Actor::getLevel(void) const {
     return _level;
 }
 
-void Actor::attack(Actor& target) {
+std::string Actor::attack(Actor& target) {
     target.setHP(target.getHP() - getDamage(getLevel()));
     if (target.getHP() <= 0) {
-        target.die();
+        return "dead";
     }
-}
-
-void Actor::die(void) {
-    print(getName() + " has been killed.\n");
+    return "";
 }
 
 /* Enemy::Enemy(const std::string& name, const int level) */
@@ -126,19 +119,18 @@ int Goblin::getDamage(const int level) const {
     return calculateAttack(level) * 3;
 }
 
-void Goblin::attack(Actor& target) {
+std::string Goblin::attack(Actor& target) {
     target.setHP(target.getHP() - getDamage(getLevel()));
     if (target.getHP() <= 0) {
-        target.die();
-        print(getName() + " killed " + target.getName());
+        return getName() + " killed " + target.getName();
     }
+    return "";
 }
 
 Player::Player(const std::string& name, const int level, const int xp)
 : Actor(name, level, calculateMaxHealth(level), calculateAttack(level)),
 _xp(xp)
 {
-    print("Player " + name + " has appeared\n");
 }
 
 int Player::calculateMaxHealth(const int level) const {
@@ -151,6 +143,10 @@ int Player::calculateAttack(const int level) const {
 
 int Player::getDamage(const int level) const {
     return calculateAttack(level) * 4;
+}
+
+int Player::xp_to_advance(const int level) const {
+    return (500*(level^2) - 500 * level);
 }
 
 int Player::getXP(void) const {
@@ -172,12 +168,12 @@ void Player::incLevel(void) {
     _health = calculateMaxHealth(getLevel());
 }
 
-void Player::attack(Actor& target) {
+std::string Player::attack(Actor& target) {
     target.setHP(target.getHP() - getDamage(getLevel()));
     if (target.getHP() <= 0) {
-        target.die();
-        print(getName() + " killed " + target.getName());
+        return getName() + " killed " + target.getName();
     }
+    return "";
 }
 
 Game::Game(const std::string& name)
@@ -187,17 +183,21 @@ Game::Game(const std::string& name)
     keypad(stdscr, TRUE);
     nocbreak();
     echo();
+    world_window = newwin((int) 4 * LINES/5, COLS, 0, 0);
+    log_window = newwin((int) LINES/5, COLS, LINES - (int) (LINES/5), 0);
 }
 
 Game::~Game() {
     endwin();
 }
 
-std::vector <Object> Game::getItemList() const {
-    return items_table;
+void tick(void) {
 }
 
 void Game::add_object(Object o) {
     items_table.push_back(o);
 }
 
+std::vector<Object> Game::getItemList() const {
+    return items_table;
+}
