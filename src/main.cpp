@@ -18,7 +18,7 @@ int main(int argc, char *argv[], char **envp) {
   
   for (;;) {
     if (p.attack(g) == "dead") {
-        delete &g;
+        g.~Goblin();
         debug("killed");
         return 0;
     }
