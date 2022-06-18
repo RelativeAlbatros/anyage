@@ -1,6 +1,7 @@
 # Anyage
 
-**work in progress.**
+### Description
+Anyage is game engine for roguelike rpgs that runs in the terminal.
 
 ### Dependencies
 - ncurses
@@ -18,3 +19,6 @@ you can build the project and run it under bin/
 optionally with debugging
 
   `$ make debug`
+  
+#### protip: 
+Anyage stands for *Anyage's Not Yet Another Game*
