@@ -3,7 +3,9 @@
 #include <string>
 #include <ncurses.h>
 
+#include "util/log.hpp"
 #include "game.hpp"
+#include "player.hpp"
 
 int main(int argc, char *argv[], char **envp) {
   Game game("goblin quest");
@@ -16,8 +18,10 @@ int main(int argc, char *argv[], char **envp) {
   Goblin g("g", 1);
   game.add_object(g);
   
+  game.render();
+  getch();
   for (;;) {
-    if (p.attack(g) == "dead") {
+    if (p.attack(g) == 1) {
         g.~Goblin();
         debug("killed");
         return 0;

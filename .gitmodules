@@ -1,0 +1,3 @@
+[submodule "lib/ncurses"]
+	path = lib/ncurses
+	url = https://github.com/mirror/ncurses

@@ -1,3 +1,4 @@
+- character movement
 - world output to window
 - room and tiles classes
 - level generation algorithm
