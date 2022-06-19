@@ -1,9 +1,9 @@
-#include "actors/goblin.hpp"
-#include "actors/actor.hpp"
+#include "goblin.hpp"
+#include "actor.hpp"
 
 #include <string>
 
-Goblin::Goblin(const std::string& name, const int level) 
+Goblin::Goblin(Game g, const std::string& name, const int level) 
 : Actor(name, level, calculateMaxHealth(level), calculateAttack(level))
 {
 }

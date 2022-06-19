@@ -5,7 +5,9 @@
 
 #include "util/log.hpp"
 #include "game.hpp"
-#include "player.hpp"
+#include "actors/player.hpp"
+
+KeyEvents key_events;
 
 int main(int argc, char *argv[], char **envp) {
   Game game("goblin quest");
@@ -13,20 +15,10 @@ int main(int argc, char *argv[], char **envp) {
   print_to_log(game, "choose a character name: ");
   std::string player_name = read();
   debug(player_name);
-  Player p(player_name, 1, 0);
-  game.add_object(p);
-  Goblin g("g", 1);
-  game.add_object(g);
+  Player p(game, player_name, 1, 0);
+  Goblin g(game, "g", 1);
   
   game.render();
-  getch();
-  for (;;) {
-    if (p.attack(g) == 1) {
-        g.~Goblin();
-        debug("killed");
-        return 0;
-    }
-  }
 
   return 0;
 }

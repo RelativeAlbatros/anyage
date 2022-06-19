@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <vector>
 #include <fstream>
@@ -7,8 +6,13 @@
 #include <cstdio>
 #include <ncurses.h>
 
-/* macros */
-#define ANYAGE_VERSION "v0.11"
+#include "object.hpp"
+
+#define ANYAGE_VERSION "v0.15"
+
+struct Cell {
+    int x, y;
+};
 
 class Game {
 public:
@@ -16,7 +20,7 @@ public:
     ~Game();
     void tick(void);
     void render(void) const;
-    void add_object(Object o);
+    void add_object(Object* o);
     std::vector<Object> getItemList() const;
 
     WINDOW *world_window;
@@ -29,14 +33,9 @@ private:
     int _max_x, _max_y;
 };
 
-struct Cell {
-    int x, y;
-};
+extern Game game;
 
-/* functions */
 void debug(const std::string& message);
 void flush_log();
 void print_to_log(Game& g, const std::string& message);
 std::string read(void);
-
-#endif

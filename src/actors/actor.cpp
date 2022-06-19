@@ -1,4 +1,4 @@
-#include "actors/actor.hpp"
+#include "actor.hpp"
 
 Actor::Actor(const std::string& name, const int level, const int max_hp, const int attack)
 : Object(name), _level(level), _health(max_hp), _attack(attack)

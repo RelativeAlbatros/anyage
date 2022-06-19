@@ -1,6 +1,6 @@
 #pragma once
 
-#include "objects.hpp"
+#include "../objects.hpp"
 #include <string>
 
 class Item : public Object {

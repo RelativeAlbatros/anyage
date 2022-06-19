@@ -68,17 +68,16 @@ void Game::tick(void) {
 }
 
 void Game::render(void) const {
-    for (int i=0; i++; i<LINES) {
-        for (int j=0; j++; j<COLS) {
-            mvwaddch(world_window, i, j, '.');
-        }
-    }
+    /* for (int i=0; i++; i<world_window) { */
+    /*     for (int j=0; j++; j<COLS) { */
+    /*         mvwaddch(world_window, i, j, '.'); */
+    /*     } */
+    /* } */
     wrefresh(world_window);
-    debug("hello");
 }
 
-void Game::add_object(Object o) {
-    items_table.push_back(o);
+void Game::add_object(Object* o) {
+    items_table.push_back(*o);
 }
 
 std::vector<Object> Game::getItemList() const {

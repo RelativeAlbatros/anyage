@@ -1,9 +1,9 @@
 #include <string>
 #include <cmath>
 
-#include "actors/player.hpp"
+#include "player.hpp"
 
-Player::Player(const std::string& name, const int level, const int xp)
+Player::Player(Game g, const std::string& name, const int level, const int xp)
 : Actor(name, level, calculateMaxHealth(level), calculateAttack(level)),
 _xp(xp)
 {

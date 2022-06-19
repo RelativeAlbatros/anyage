@@ -1,7 +1,8 @@
 #include <string>
 #include <fstream>
+#include <regex>
 
-#include "util/log.hpp"
+#include "log.hpp"
 
 void util::log::print(
     const std::string &out,
@@ -14,18 +15,16 @@ void util::log::print(
     std::string f = _file;
     f = std::regex_replace(f, std::regex("src/"), "");
     f = std::regex_replace(f, std::regex("\\.(cpp|hpp)"), "");
-    ofstream log_file;
+    std::ofstream log_file;
     log_file.open(f);
 
     auto res = "[" + level_name + "]"
         + "[" + f
-        + ":" + std::to_string(_line)
-        + "]["+ _caller + "] "
-        + out;
+        + "]" + out;
 
     if (res[res.length() - 1] != '\n') {
         res += '\n';
     }
-    log_fie << res;
-    log_fie.close();
+    log_file << res;
+    log_file.close();
 }

@@ -1,4 +1,5 @@
-#include "util/input.hpp"
+#include "input.hpp"
+#include <cstdlib>
 
 void KeyEvents::key_q(void) {
     exit(0);

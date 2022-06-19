@@ -1,6 +1,6 @@
 PREFIX := /usr/local
 SRC := src/*.cpp src/util/*.cpp src/actors/*.cpp src/items/*.cpp
-CXXFLAGS := -std=c++17 -lncurses
+CXXFLAGS := -std=c++17 -lncurses #-Wall -Wextra -pedantic
 
 all: options anyage
 
@@ -12,6 +12,13 @@ options:
 
 anyage: ${SRC}
 	${CXX} -o bin/$@ $? ${CXXFLAGS}
+
+ncurses: lib/ncurses/
+	pushd lib/ncurses
+	./configure
+	make
+	sudo make install
+	popd
 
 run: all
 	bin/anyage
@@ -25,3 +32,5 @@ clean:
 
 install: all
 	cp bin/anyage ${PREFIX}/bin
+
+.PHONY: clean install debug run ncurses options all

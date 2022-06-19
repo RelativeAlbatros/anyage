@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "items/item.hpp"
+#include "../items/item.hpp"
 
 class Player : public Actor {
 private:
