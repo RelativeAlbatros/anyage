@@ -3,7 +3,12 @@
 #include <string>
 #include <exception>
 #include <vector>
-#include <ncurses.h>
+
+#if defined(__unix__)
+    #include <ncurses.h>
+#elif defined(WIN32)
+    #include <pdcurses.h>
+#endif
 
 #include "game.hpp"
 #include "object.hpp"
@@ -16,11 +21,6 @@ void debug(const std::string& message) {
 
 void flush_log(void) {
     std::remove("game.log");
-}
-
-void print_to_log(Game& g, const std::string& message) {
-    wprintw(g.log_window, "%s", message);
-    wrefresh(g.log_window);
 }
 
 std::string read(void) {
@@ -68,12 +68,6 @@ void Game::tick(void) {
 }
 
 void Game::render(void) const {
-    /* for (int i=0; i++; i<world_window) { */
-    /*     for (int j=0; j++; j<COLS) { */
-    /*         mvwaddch(world_window, i, j, '.'); */
-    /*     } */
-    /* } */
-    wrefresh(world_window);
 }
 
 void Game::add_object(Object* o) {

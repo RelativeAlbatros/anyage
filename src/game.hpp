@@ -22,9 +22,6 @@ public:
     void render(void) const;
     void add_object(Object* o);
     std::vector<Object> getItemList() const;
-
-    WINDOW *world_window;
-    WINDOW *log_window;
 private:
     std::vector<std::vector<struct Cell> > cells;
     std::string game_title;
@@ -37,5 +34,4 @@ extern Game game;
 
 void debug(const std::string& message);
 void flush_log();
-void print_to_log(Game& g, const std::string& message);
 std::string read(void);

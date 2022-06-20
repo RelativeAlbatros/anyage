@@ -2,10 +2,9 @@
 
 #include <string>
 
-Object::Object(Game& g, const std::string& name, const std::string& desc)
+Object::Object(const std::string& name, const std::string& desc)
 : _name(name), _description(desc)
 {
-    g.add_object(this);
 }
 
 Object::Object(const std::string& name)

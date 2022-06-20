@@ -7,7 +7,7 @@ protected:
     std::string _description;
     std::string _name;
 public:
-    Object(Game g, const std::string& name, const std::string& desc);
+    Object(const std::string& name, const std::string& desc);
     explicit Object(const std::string& name);
     void setDescription(const std::string& desc);
     void setName(const std::string& name);

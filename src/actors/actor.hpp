@@ -8,7 +8,7 @@ class Actor : public Object {
 protected:
     int _level, _health, _attack;
 public:
-    Actor(Game g, const std::string& name, const int level, const int max_hp, const int attack);
+    Actor(const std::string& name, const int level, const int max_hp, const int attack);
     std::string getName(void) const;
     virtual int calculateMaxHealth(const int level) const = 0;
     virtual int calculateAttack(const int level) const = 0;

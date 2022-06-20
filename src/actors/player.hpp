@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "../items/item.hpp"
+#include "actor.hpp"
 
 class Player : public Actor {
 private:
@@ -10,7 +11,7 @@ private:
     int _strength;
     std::vector<Item> inventory;
 public:
-    Player(Game g, const std::string& name, const int level, const int xp);
+    Player(const std::string& name, const int level, const int xp);
     int calculateMaxHealth(const int level) const override;
     int calculateAttack(const int level) const override;
     int getDamage(const int level) const override;

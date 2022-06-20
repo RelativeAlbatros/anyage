@@ -1,24 +1,17 @@
 PREFIX := /usr/local
 SRC := src/*.cpp src/util/*.cpp src/actors/*.cpp src/items/*.cpp
-CXXFLAGS := -std=c++17 -lncurses #-Wall -Wextra -pedantic
+CXXFLAGS := -std=c++17 -Iactors -Iitems -lncurses -Wall -Wextra -pedantic
 
 all: options anyage
 
 options:
 	@echo anyage build options:
 	@echo "LDFLAGS    = ${LDFLAGS}"
-	@echo "CXXFLAGS   = ${CFLAGS}"
+	@echo "CXXFLAGS   = ${CXXFLAGS}"
 	@echo "CXX        = ${CXX}"
 
 anyage: ${SRC}
 	${CXX} -o bin/$@ $? ${CXXFLAGS}
-
-ncurses: lib/ncurses/
-	pushd lib/ncurses
-	./configure
-	make
-	sudo make install
-	popd
 
 run: all
 	bin/anyage

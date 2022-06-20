@@ -18,7 +18,6 @@ int Actor::getHP(void) const {
 }
 
 void Actor::setHP(int hp) {
-    debug("setting health " + std::to_string(hp));
     _health = hp;
 }
 

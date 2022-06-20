@@ -9,9 +9,9 @@ private:
     int _height_world = (4*LINES)/5;
     int _width_world = COLS;
 
-    int _start_x_log = ;
-    int _start_y_log;
-    int _height_log = (4*LINES)/5;
+    int _start_x_log = 0;
+    int _start_y_log = (4*LINES)/5;
+    int _height_log = LINES/5;
     int _width_log = COLS;
 public:
     WINDOW *world_window = newwin(_height_world, _width_world, 0, 0);

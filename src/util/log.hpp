@@ -13,7 +13,7 @@ namespace util::log {
 
     void print(
         const std::string &out,
-        Level level = Level::DEFAULT,
-        const char *_file = __builtin_FILE()
+        Level level,
+        const char *_file
     );
 }
